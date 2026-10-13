@@ -1,0 +1,16 @@
+{
+  "id": "OSV-2023-0003",
+  "aliases": [],
+  "summary": "Git-range advisory for serde",
+  "details": "Range type GIT cannot be evaluated, so this is a potential match.",
+  "database_specific": {"severity": "LOW"},
+  "affected": [
+    {
+      "package": {"ecosystem": "crates.io", "name": "serde"},
+      "ranges": [
+        {"type": "GIT", "events": [{"introduced": "0"}, {"fixed": "deadbeef"}]}
+      ]
+    }
+  ],
+  "published": "2023-03-01T00:00:00Z"
+}

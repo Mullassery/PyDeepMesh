@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# PyDeepMesh runtime output
+.pydeepmesh-cache/
+pydeepmesh-out/
+*.pydeepmesh.json
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Unrelated, untracked directory present in the working tree at initialization.
+# It is not part of PyDeepMesh and must never be modified, imported, or committed.
+TaskWire/

@@ -1,0 +1,10 @@
+services:
+  web:
+    image: nginx:1.25
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+  db:
+    image: postgres:16

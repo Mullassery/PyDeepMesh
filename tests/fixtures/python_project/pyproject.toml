@@ -1,0 +1,16 @@
+[project]
+name = "demo-python"
+version = "1.0.0"
+dependencies = ["requests>=2.0,<3", "flask==2.3.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+test = ["coverage>=7"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.poetry]
+name = "demo-python"
+version = "1.0.0"

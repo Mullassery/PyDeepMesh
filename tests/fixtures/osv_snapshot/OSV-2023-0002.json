@@ -1,0 +1,16 @@
+{
+  "id": "OSV-2023-0002",
+  "aliases": [],
+  "summary": "Test advisory for express",
+  "details": "A test advisory used by PyDeepMesh tests.",
+  "database_specific": {"severity": "MODERATE"},
+  "affected": [
+    {
+      "package": {"ecosystem": "npm", "name": "express"},
+      "ranges": [
+        {"type": "SEMVER", "events": [{"introduced": "0"}, {"fixed": "4.19.0"}]}
+      ]
+    }
+  ],
+  "published": "2023-02-01T00:00:00Z"
+}

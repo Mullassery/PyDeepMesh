@@ -1,0 +1,20 @@
+{
+  "id": "OSV-2023-0001",
+  "aliases": ["CVE-2023-0001", "GHSA-aaaa-bbbb-cccc"],
+  "summary": "Test advisory for requests",
+  "details": "A test advisory used by PyDeepMesh tests.",
+  "severity": [
+    {"type": "CVSS_V3", "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"}
+  ],
+  "affected": [
+    {
+      "package": {"ecosystem": "PyPI", "name": "requests", "purl": "pkg:pypi/requests"},
+      "ranges": [
+        {"type": "ECOSYSTEM", "events": [{"introduced": "0"}, {"fixed": "2.32.0"}]}
+      ]
+    }
+  ],
+  "references": [{"type": "WEB", "url": "https://example.com/OSV-2023-0001"}],
+  "published": "2023-01-01T00:00:00Z",
+  "modified": "2023-06-01T00:00:00Z"
+}
