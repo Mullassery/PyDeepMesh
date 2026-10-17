@@ -42,6 +42,20 @@ def test_checker_detects_sibling_reference(tmp_path: Path, monkeypatch) -> None:
     assert any(v.rule == "sibling-reference" for v in violations)
 
 
+def test_checker_does_not_skip_sibling_named_dirs() -> None:
+    checker = _load_checker()
+    assert checker._skip_dir("PyDependencyCheck") is False
+    assert checker._skip_dir("__pycache__") is True
+
+
+def test_checker_detects_sibling_directory(tmp_path: Path, monkeypatch) -> None:
+    checker = _load_checker()
+    (tmp_path / "PyDependencyCheck").mkdir()
+    monkeypatch.setattr(checker, "REPO_ROOT", tmp_path)
+    violations = checker.check_sibling_directories()
+    assert any(v.rule == "sibling-directory" for v in violations)
+
+
 def test_checker_detects_nested_repo(tmp_path: Path, monkeypatch) -> None:
     checker = _load_checker()
     nested = tmp_path / "inner" / ".git"

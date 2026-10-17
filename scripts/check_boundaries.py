@@ -39,9 +39,15 @@ _SIBLING_LOWER = {name.lower() for name in SIBLING_NAMES}
 
 
 def _skip_dir(name: str) -> bool:
-    """Unrelated sibling checkouts and caches are never part of this repo."""
+    """Caches and unrelated build dirs are never part of this repo.
 
-    return name in SKIP_DIRS or name.lower() in _SIBLING_LOWER
+    Sibling-repository *names* are deliberately NOT skipped here: a directory
+    named after a sibling must be scanned (and is separately flagged by
+    :func:`check_sibling_directories`), otherwise vendoring a sibling under a
+    sibling-named directory would silently evade the boundary checks.
+    """
+
+    return name in SKIP_DIRS
 
 
 TEXT_SUFFIXES = {
@@ -150,6 +156,23 @@ def check_path_dependencies() -> list[Violation]:
     return violations
 
 
+def check_sibling_directories() -> list[Violation]:
+    violations: list[Violation] = []
+    for dirpath, dirnames, _ in os.walk(REPO_ROOT):
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        for name in list(dirnames):
+            if name.lower() in _SIBLING_LOWER:
+                candidate = Path(dirpath) / name
+                violations.append(
+                    Violation(
+                        "sibling-directory",
+                        str(candidate.relative_to(REPO_ROOT)),
+                        f"directory named after sibling repository '{name}'",
+                    )
+                )
+    return violations
+
+
 def check_submodules_and_nested_repos() -> list[Violation]:
     violations: list[Violation] = []
     gitmodules = REPO_ROOT / ".gitmodules"
@@ -199,6 +222,7 @@ def check_escaping_symlinks() -> list[Violation]:
 def main() -> int:
     all_violations: list[Violation] = []
     all_violations += check_sibling_references()
+    all_violations += check_sibling_directories()
     all_violations += check_path_dependencies()
     all_violations += check_submodules_and_nested_repos()
     all_violations += check_escaping_symlinks()
