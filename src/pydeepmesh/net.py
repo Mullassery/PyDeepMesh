@@ -26,6 +26,34 @@ class HttpResponse:
         return json.loads(self.body.decode("utf-8", errors="replace"))
 
 
+class _HttpsOnlyRedirectHandler(urllib.request.HTTPRedirectHandler):
+    """Refuse any redirect whose target is not HTTPS.
+
+    ``urllib`` follows 3xx redirects automatically, so without this an HTTPS
+    endpoint could bounce the transport to plain HTTP and silently defeat the
+    module's HTTPS-only guarantee. Every redirect hop is re-validated here.
+    """
+
+    def redirect_request(
+        self,
+        req: urllib.request.Request,
+        fp: Any,
+        code: int,
+        msg: str,
+        headers: Any,
+        newurl: str,
+    ) -> urllib.request.Request | None:
+        redirected = super().redirect_request(req, fp, code, msg, headers, newurl)
+        if redirected is not None:
+            target = urlparse(redirected.full_url)
+            if target.scheme != "https":
+                raise AdvisoryProviderError(
+                    f"refusing redirect to non-HTTPS URL "
+                    f"'{target.scheme}://{target.netloc}'"
+                )
+        return redirected
+
+
 class Transport:
     """A retrying HTTPS transport with a response size cap."""
 
@@ -35,6 +63,8 @@ class Transport:
         self.timeout = timeout
         self.retries = max(0, retries)
         self.max_bytes = max_bytes
+        # An opener that enforces HTTPS on every redirect hop.
+        self._opener = urllib.request.build_opener(_HttpsOnlyRedirectHandler)
 
     def request(
         self,
@@ -64,7 +94,7 @@ class Transport:
                 url, data=payload, headers=request_headers, method=method
             )
             try:
-                with urllib.request.urlopen(request, timeout=self.timeout) as response:
+                with self._opener.open(request, timeout=self.timeout) as response:
                     body = response.read(self.max_bytes + 1)
                     if len(body) > self.max_bytes:
                         raise AdvisoryProviderError("response exceeded size cap")
