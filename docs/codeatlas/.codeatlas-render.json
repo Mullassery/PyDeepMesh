@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "outputs": {
+    "md": [
+      "fixtures.3.1.md",
+      "overview.md",
+      "pydeepmesh.2.1.md",
+      "src.2.md",
+      "tests.3.md"
+    ],
+    "html": [
+      "fixtures.3.1.html",
+      "overview.html",
+      "pydeepmesh.2.1.html",
+      "src.2.html",
+      "tests.3.html"
+    ]
+  }
+}
