@@ -4,6 +4,7 @@ graph LR
     src["src"]
     tests["tests"]
     PyDeepMesh["PyDeepMesh"]
+    scripts -- "calls" --> src
     src -- "calls" --> tests
     tests -- "calls" --> scripts
     tests -- "calls" --> src
@@ -19,7 +20,7 @@ Architecture map of PyDeepMesh.
 
 ### scripts
 
-Owns 10 symbols across 1 file(s).
+Owns 13 symbols across 1 file(s).
 
 **Related Classes/Methods:** _None_
 
@@ -28,6 +29,9 @@ Owns 10 symbols across 1 file(s).
 - `scripts/check_boundaries.py`
   - `scripts.check_boundaries.Violation`
   - `scripts.check_boundaries.Violation.__str__`
+  - `scripts.check_boundaries._analyze_imports`
+  - `scripts.check_boundaries._check_sibling_imports`
+  - `scripts.check_boundaries._check_sibling_references_text`
   - `scripts.check_boundaries._iter_files`
   - `scripts.check_boundaries._skip_dir`
   - `scripts.check_boundaries.check_escaping_symlinks`

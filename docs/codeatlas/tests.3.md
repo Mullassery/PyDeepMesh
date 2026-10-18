@@ -26,7 +26,7 @@ Owns 0 symbols across 2 file(s).
 
 ### security
 
-Owns 7 symbols across 1 file(s).
+Owns 8 symbols across 1 file(s).
 
 **Related Classes/Methods:** _None_
 
@@ -39,4 +39,5 @@ Owns 7 symbols across 1 file(s).
   - `tests.security.test_repository_boundaries.test_checker_detects_sibling_directory`
   - `tests.security.test_repository_boundaries.test_checker_detects_sibling_reference`
   - `tests.security.test_repository_boundaries.test_checker_does_not_skip_sibling_named_dirs`
+  - `tests.security.test_repository_boundaries.test_checker_flags_sibling_import_structurally`
   - `tests.security.test_repository_boundaries.test_checker_runs_clean_on_this_repo`

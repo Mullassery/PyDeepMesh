@@ -19,7 +19,7 @@
 </header>
 <div id="cy"></div>
 <script>
-const data = {"nodes": [{"data": {"id": "scripts", "label": "scripts", "description": "Owns 10 symbols across 1 file(s)."}}, {"data": {"id": "src", "label": "src", "description": "Owns 0 symbols across 0 file(s).", "linkUrl": "./src.html"}}, {"data": {"id": "tests", "label": "tests", "description": "Owns 140 symbols across 16 file(s).", "linkUrl": "./tests.html"}}, {"data": {"id": "PyDeepMesh", "label": "PyDeepMesh", "description": "Owns 0 symbols across 10 file(s)."}}], "edges": [{"data": {"id": "edge_0", "source": "src", "target": "tests", "label": "calls"}}, {"data": {"id": "edge_1", "source": "tests", "target": "scripts", "label": "calls"}}, {"data": {"id": "edge_2", "source": "tests", "target": "src", "label": "calls"}}]};
+const data = {"nodes": [{"data": {"id": "scripts", "label": "scripts", "description": "Owns 13 symbols across 1 file(s)."}}, {"data": {"id": "src", "label": "src", "description": "Owns 0 symbols across 0 file(s).", "linkUrl": "./src.html"}}, {"data": {"id": "tests", "label": "tests", "description": "Owns 140 symbols across 16 file(s).", "linkUrl": "./tests.html"}}, {"data": {"id": "PyDeepMesh", "label": "PyDeepMesh", "description": "Owns 0 symbols across 10 file(s)."}}], "edges": [{"data": {"id": "edge_0", "source": "scripts", "target": "src", "label": "calls"}}, {"data": {"id": "edge_1", "source": "src", "target": "tests", "label": "calls"}}, {"data": {"id": "edge_2", "source": "tests", "target": "scripts", "label": "calls"}}, {"data": {"id": "edge_3", "source": "tests", "target": "src", "label": "calls"}}]};
 const cy = cytoscape({
   container: document.getElementById('cy'),
   elements: data,
