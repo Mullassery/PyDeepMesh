@@ -39,7 +39,16 @@ def test_checker_detects_sibling_reference(tmp_path: Path, monkeypatch) -> None:
     (tmp_path / "code.py").write_text("import PyDependencyCheck  # forbidden\n")
     monkeypatch.setattr(checker, "REPO_ROOT", tmp_path)
     violations = checker.check_sibling_references()
-    assert any(v.rule == "sibling-reference" for v in violations)
+    # Structural (engine installed) or text fallback (engine absent) both fire.
+    assert any(v.rule in {"sibling-reference", "sibling-import"} for v in violations)
+
+
+def test_checker_flags_sibling_import_structurally() -> None:
+    checker = _load_checker()
+    violations = checker._check_sibling_imports(
+        {"pkg/mod.py": ["PyVectorHound.core", "os", "json"]}
+    )
+    assert any(v.rule == "sibling-import" and "PyVectorHound" in v.detail for v in violations)
 
 
 def test_checker_does_not_skip_sibling_named_dirs() -> None:

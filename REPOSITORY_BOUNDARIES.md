@@ -12,7 +12,7 @@ PyDeepMesh MUST NOT, at any time:
 - import, copy, vendor, or depend at runtime on source code from any sibling
   repository, including but not limited to:
   `PyDependencyCheck`, `PyNetworkIntel`, `StatGuardian`, `TaskWire`/`CronMesh`,
-  `CodeAtlas`, `PyDBTGuard`, `PyBlastGuard`, `PyAirflowTester`, `PyTokenCalc`,
+  `PyDBTGuard`, `PyBlastGuard`, `PyAirflowTester`, `PyTokenCalc`,
   `PyVectorHound`, `PyAgentHound`, `PyRoboSimulator`, `PyTerrainMap`,
   `PyTagManager`.
 - add a sibling repository as a Git submodule, editable install, path
@@ -45,14 +45,25 @@ A consumer may ingest these artifacts without importing PyDeepMesh internals, an
 without calling PyDeepMesh as a service. PyDeepMesh never requires a consumer to be
 present.
 
+### Approved tooling
+
+CodeAtlas is an approved, first-party architecture-analysis tool. PyDeepMesh may
+depend on its published package (`codeatlas-rs`) and commit its generated
+artifacts (`codeatlas.json`, `docs/codeatlas/`, `.codeatlas/`). This is a
+dependency on a released artifact, not source-level coupling to a sibling
+repository, so CodeAtlas is not treated as a sibling repo.
+
 ## 3. Automated enforcement
 
 `scripts/check_boundaries.py` enforces the rules above and runs in CI and the
 local quality suite. It fails the build if it finds:
 
-- references to sibling repository names in source, config, or build files
-  (except this document, the boundary checker itself, and tests that assert the
-  checker works);
+- source files that import a sibling repository package (detected structurally
+  via the embedded CodeAtlas engine when installed; a text scan is used as a
+  fallback so the check still runs before installation);
+- references to sibling repository names in config or build files (except this
+  document, the boundary checker itself, and tests that assert the checker
+  works);
 - local path dependencies (`file:` / `path =` pointing outside the repository)
   in `pyproject.toml`;
 - Git submodules or nested Git repositories inside the project tree;
