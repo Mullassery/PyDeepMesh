@@ -41,7 +41,6 @@ dev = [
   "mypy>=1.11,<2",
   "jsonschema>=4.21,<5",
   "types-PyYAML>=6.0.12",
-  "codeatlas-rs>=0.2.0",
 ]
 
 [project.scripts]
