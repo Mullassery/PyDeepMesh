@@ -32,7 +32,7 @@ dependencies = [
 
 [project.optional-dependencies]
 architecture = [
-  "codeatlas-rs>=0.2.0",
+  "codeatlas-rs>=0.3.0",
 ]
 dev = [
   "pytest>=8.0,<9",
