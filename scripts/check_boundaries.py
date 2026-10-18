@@ -4,11 +4,15 @@
 This script fails (exit code 1) if it detects coupling to sibling repositories
 or other boundary violations described in REPOSITORY_BOUNDARIES.md.
 
-It is intentionally dependency-free so it can run before installation.
+Sibling coupling in source code is detected **structurally** with the embedded
+CodeAtlas engine (``codeatlas_rs``), which reports each analyzed file's imports.
+When the engine is not installed the checker falls back to a text scan, so it
+can still run before installation.
 """
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import sys
@@ -23,7 +27,6 @@ SIBLING_NAMES = [
     "StatGuardian",
     "TaskWire",
     "CronMesh",
-    "CodeAtlas",
     "PyDBTGuard",
     "PyBlastGuard",
     "PyAirflowTester",
@@ -110,7 +113,54 @@ def _iter_files() -> list[Path]:
     return files
 
 
+def _analyze_imports() -> dict[str, list[str]] | None:
+    """Return per-file imports from the embedded CodeAtlas engine, or None.
+
+    The engine is optional: if it is not installed the caller falls back to a
+    text scan so the boundary guarantee still holds before installation.
+    """
+    try:
+        import codeatlas_rs  # type: ignore
+    except Exception:
+        return None
+    try:
+        _analysis, _fingerprint, coverage = codeatlas_rs.analyze(str(REPO_ROOT))
+        return json.loads(coverage).get("imports", {})
+    except Exception:
+        return None
+
+
+def _check_sibling_imports(imports: dict[str, list[str]]) -> list[Violation]:
+    """Structural check: a source file imports a sibling repository's package."""
+    violations: list[Violation] = []
+    for path, modules in sorted(imports.items()):
+        for module in modules:
+            root = module.split(".")[0].strip()
+            if root.lower() in _SIBLING_LOWER:
+                violations.append(
+                    Violation(
+                        "sibling-import",
+                        path,
+                        f"imports sibling repository module '{module}'",
+                    )
+                )
+    return violations
+
+
 def check_sibling_references() -> list[Violation]:
+    """Detect sibling-repository coupling.
+
+    Structural (embedded CodeAtlas imports) when the engine is available,
+    otherwise a dependency-free text scan.
+    """
+    imports = _analyze_imports()
+    if imports is None:
+        return _check_sibling_references_text()
+    return _check_sibling_imports(imports)
+
+
+def _check_sibling_references_text() -> list[Violation]:
+    """Fallback: scan text files for sibling repository names."""
     violations: list[Violation] = []
     patterns = [(name, re.compile(re.escape(name), re.IGNORECASE)) for name in SIBLING_NAMES]
     for path in _iter_files():
