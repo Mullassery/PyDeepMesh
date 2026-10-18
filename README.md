@@ -3,6 +3,8 @@
 **Deterministic, extensible dependency-graph, vulnerability, and attack-surface
 intelligence for Python, Rust, Node.js, and container projects.**
 
+[![PyPI](https://img.shields.io/pypi/v/pydeepmesh.svg)](https://pypi.org/project/pydeepmesh/)
+
 PyDeepMesh statically parses the dependency metadata already in your repository
 (manifests, lockfiles, Dockerfiles, Compose files), normalizes it into a single
 canonical dependency graph, matches it against advisory data, and emits
