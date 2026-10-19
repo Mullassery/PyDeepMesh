@@ -177,6 +177,17 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md).
   support matrix).
 - SPDX export is planned; CycloneDX is implemented.
 
+## Known issues and deferred work
+
+**Blocked / failed:**
+- `pip install pydeepmesh` still 404; publish PyPI + Action.
+- Container image scanning; reachability precision.
+
+**Rejected / deferred:**
+- Another dependency-provenance tool; merge with PyDependencyCheck.
+
+Full shipped/blocked/rejected detail: [`QUEUE_STATUS.md`](QUEUE_STATUS.md).
+
 ## Queue status
 
 Shipped, blocked/failed, and rejected work for this repository is documented in
