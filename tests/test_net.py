@@ -58,9 +58,7 @@ def test_redirect_handler_rejects_downgrade() -> None:
     handler = _HttpsOnlyRedirectHandler()
     request = urllib.request.Request("https://example.com/a")
     with pytest.raises(AdvisoryProviderError):
-        handler.redirect_request(
-            request, None, 302, "Found", {}, "http://example.com/b"
-        )
+        handler.redirect_request(request, None, 302, "Found", {}, "http://example.com/b")
 
 
 def test_successful_request(monkeypatch: pytest.MonkeyPatch) -> None:

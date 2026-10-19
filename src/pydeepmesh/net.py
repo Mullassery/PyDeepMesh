@@ -48,8 +48,7 @@ class _HttpsOnlyRedirectHandler(urllib.request.HTTPRedirectHandler):
             target = urlparse(redirected.full_url)
             if target.scheme != "https":
                 raise AdvisoryProviderError(
-                    f"refusing redirect to non-HTTPS URL "
-                    f"'{target.scheme}://{target.netloc}'"
+                    f"refusing redirect to non-HTTPS URL '{target.scheme}://{target.netloc}'"
                 )
         return redirected
 
