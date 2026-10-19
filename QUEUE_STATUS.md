@@ -4,10 +4,11 @@ This file records what was shipped, what is blocked/failed, and what is rejected
 
 ## Shipped
 - Ruff formatting fix for CI; audit docs.
+- Optional Syft container-image scanning (`pydeepmesh image`).
 
 ## Blocked / failed
 - `pip install pydeepmesh` still 404; publish PyPI + Action.
-- Container image scanning; reachability precision.
+- Reachability precision.
 
 ## Rejected / deferred
 - Another dependency-provenance tool; merge with PyDependencyCheck.

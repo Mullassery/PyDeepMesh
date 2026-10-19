@@ -83,6 +83,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     audit_parser.set_defaults(func=_cmd_audit)
 
+    image_parser = subparsers.add_parser(
+        "image", help="catalog packages inside a container image via Syft"
+    )
+    image_parser.add_argument("image", help="container image reference")
+    image_parser.add_argument("--syft", default="syft", help="path to the Syft binary")
+    image_parser.add_argument("--format", choices=["terminal", "json"], default="terminal")
+    image_parser.add_argument("--output", help="write output to a file")
+    image_parser.set_defaults(func=_cmd_image)
+
     sbom_parser = subparsers.add_parser("sbom", help="emit a CycloneDX 1.5 SBOM")
     _add_scan_args(sbom_parser)
     sbom_parser.set_defaults(func=_cmd_sbom)
@@ -314,6 +323,44 @@ def _cmd_audit(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int
         return EXIT_UNAVAILABLE
     fail_on = args.fail_on if args.fail_on is not None else config.fail_on
     return _fail_code(analysis, fail_on)
+
+
+def _cmd_image(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
+    del parser
+    from pydeepmesh.integrations import SyftScanner, SyftUnavailable
+
+    try:
+        result = SyftScanner(syft_path=args.syft).scan(args.image)
+    except SyftUnavailable as exc:
+        print(str(exc), file=sys.stderr)
+        return EXIT_UNAVAILABLE
+    except (RuntimeError, ValueError) as exc:
+        print(f"image scan failed: {exc}", file=sys.stderr)
+        return EXIT_INPUT
+
+    if args.format == "json":
+        payload = {
+            "image": result.image,
+            "components": result.components,
+            "graph": {
+                "nodes": [node.to_dict() for node in result.graph.nodes.values()],
+                "edges": [edge.to_dict() for edge in result.graph.edges],
+            },
+        }
+        text = json.dumps(payload, indent=2)
+    else:
+        lines = [f"Image: {result.image}", f"Packages: {len(result.components)}", ""]
+        for component in result.components:
+            version = f"@{component['version']}" if component.get("version") else ""
+            lines.append(f"  {component['name']}{version}")
+        text = "\n".join(lines)
+
+    if args.output:
+        output_path = ensure_output_path(Path(args.output))
+        output_path.write_text(text + "\n", encoding="utf-8")
+    else:
+        print(text)
+    return EXIT_OK
 
 
 def _cmd_sbom(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:

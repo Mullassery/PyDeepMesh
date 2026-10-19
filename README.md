@@ -55,6 +55,30 @@ PyDeepMesh distinguishes **confirmed**, **potential**, **unmatched**,
 **unavailable**, and **error** outcomes. **A package is never reported as
 "safe" merely because no advisory was found.**
 
+## Container image scanning (Syft)
+
+Dockerfile parsing is not the same as scanning a built image. The optional
+Syft adapter catalogs packages inside an image and feeds them into the same
+canonical graph:
+
+```bash
+# install the Apache-2.0 Syft binary (not a vendored dependency)
+brew install syft
+
+pydeepmesh image ghcr.io/example/app:latest --format terminal
+pydeepmesh image ghcr.io/example/app:latest --format json
+```
+
+```python
+from pydeepmesh.integrations import scan_image
+
+result = scan_image("ghcr.io/example/app:latest")
+print(len(result.components), result.graph.nodes)
+```
+
+Syft is never vendored; a missing binary raises `SyftUnavailable` instead of
+pretending the image has no packages.
+
 ## Installation
 
 Requires Python 3.10+.

@@ -17,6 +17,7 @@ from pydeepmesh.advisories.base import AdvisoryProvider
 from pydeepmesh.advisories.matcher import MatchReport, match_graph
 from pydeepmesh.advisories.registry import build_provider
 from pydeepmesh.config import Config
+from pydeepmesh.integrations import ImageScanResult, SyftScanner, SyftUnavailable, scan_image
 from pydeepmesh.models.finding import AnalysisResult
 from pydeepmesh.pipeline import ScanResult
 from pydeepmesh.pipeline import scan as _scan
@@ -29,7 +30,10 @@ from pydeepmesh.sbom.cyclonedx import build_cyclonedx, render_cyclonedx
 
 __all__ = [
     "Config",
+    "ImageScanResult",
     "RiskOptions",
+    "SyftScanner",
+    "SyftUnavailable",
     "advisory_provider",
     "audit_directory",
     "make_cyclonedx",
@@ -43,6 +47,7 @@ __all__ = [
     "render_viewer",
     "render_viewer_json",
     "scan_directory",
+    "scan_image",
 ]
 
 
