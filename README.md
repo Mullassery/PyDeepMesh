@@ -107,6 +107,7 @@ pip install .
 pydeepmesh scan   <path>     # discover + parse + build graph; summary or --format json
 pydeepmesh graph  <path>     # graph queries: paths, reverse-deps; --format html export
 pydeepmesh audit  <path>     # vulnerability + exposure findings (offline by default)
+pydeepmesh image  <image>    # catalog packages in a container image via Syft
 pydeepmesh sbom   <path>     # emit a CycloneDX 1.5 SBOM
 pydeepmesh report <path>     # combined report: --format json|sarif|terminal
 pydeepmesh advisories update # refresh the local advisory cache (explicit, online)
@@ -116,6 +117,10 @@ Common options: `--output PATH`, `--offline/--online`,
 `--fail-on {critical,high,medium,low,never}`, `--config PATH`, `--verbose`,
 `--quiet`. `--format` depends on the command: `terminal`/`json` everywhere,
 `sarif` for `audit`/`report`, and `html` for `graph`.
+
+`--output` must stay inside the output root (default: the scanned project).
+To write elsewhere (for example `/tmp`), pass `--output-root DIR`; otherwise the
+command fails with a security error.
 
 ### Examples
 
@@ -204,13 +209,25 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 ## Known issues and deferred work
 
 **Blocked / failed:**
-- `pip install pydeepmesh` still 404; publish PyPI + Action.
-- Container image scanning; reachability precision.
+- Official GitHub Action (SARIF output already exists).
+- Reachability precision (graph reachability, not proven runtime exploitability).
 
 **Rejected / deferred:**
 - Another dependency-provenance tool; merge with PyDependencyCheck.
 
 Full shipped/blocked/rejected detail: [`QUEUE_STATUS.md`](QUEUE_STATUS.md).
+
+## Documentation
+
+- [Documentation index](docs/README.md)
+- [Quickstart](docs/QUICKSTART.md)
+- [Install](docs/INSTALL.md)
+- [Project status](docs/STATUS.md)
+- [Comparison](docs/COMPARISON.md)
+- [Architecture](ARCHITECTURE.md)
+- [Support matrix](SUPPORT_MATRIX.md)
+- [Security policy](SECURITY.md)
+- [Repository boundaries](REPOSITORY_BOUNDARIES.md)
 
 ## License
 
