@@ -177,6 +177,11 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md).
   support matrix).
 - SPDX export is planned; CycloneDX is implemented.
 
+## Queue status
+
+Shipped, blocked/failed, and rejected work for this repository is documented in
+[`QUEUE_STATUS.md`](QUEUE_STATUS.md).
+
 ## License
 
 Licensed under the [Apache License, Version 2.0](LICENSE).
