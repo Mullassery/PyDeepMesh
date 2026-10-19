@@ -52,7 +52,8 @@ local quality suite. It fails the build if it finds:
 
 - references to sibling repository names in source, config, or build files
   (except this document, the boundary checker itself, and tests that assert the
-  checker works);
+  checker works). Prose documentation (`.md`/`.rst`) is exempt: portfolio/bundle
+  docs name sibling projects to describe positioning, which is not coupling;
 - local path dependencies (`file:` / `path =` pointing outside the repository)
   in `pyproject.toml`;
 - Git submodules or nested Git repositories inside the project tree;

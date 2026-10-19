@@ -66,6 +66,12 @@ TEXT_SUFFIXES = {
     ".zsh",
 }
 
+# Prose documentation is exempt from the sibling-name rule. The rule exists to
+# catch real coupling (imports, path dependencies, vendoring) in source, config,
+# or build files; portfolio/bundle docs legitimately name sibling projects to
+# describe positioning, which is not coupling. See REPOSITORY_BOUNDARIES.md §3.
+PROSE_SUFFIXES = {".md", ".rst"}
+
 SKIP_DIRS = {
     ".git",
     ".venv",
@@ -118,6 +124,8 @@ def check_sibling_references() -> list[Violation]:
         if rel in ALLOWED_REFERENCES:
             continue
         if path.suffix.lower() not in TEXT_SUFFIXES:
+            continue
+        if path.suffix.lower() in PROSE_SUFFIXES:
             continue
         try:
             text = path.read_text(encoding="utf-8", errors="ignore")

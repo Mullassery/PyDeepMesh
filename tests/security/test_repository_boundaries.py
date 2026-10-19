@@ -42,6 +42,15 @@ def test_checker_detects_sibling_reference(tmp_path: Path, monkeypatch) -> None:
     assert any(v.rule == "sibling-reference" for v in violations)
 
 
+def test_checker_ignores_prose_documentation(tmp_path: Path, monkeypatch) -> None:
+    # Portfolio/bundle docs legitimately name siblings; that is not coupling.
+    checker = _load_checker()
+    (tmp_path / "README.md").write_text("See StatGuardian for data-quality checks.\n")
+    (tmp_path / "COMPETITIVE_INTELLIGENCE.md").write_text("Adjacent to CodeAtlas.\n")
+    monkeypatch.setattr(checker, "REPO_ROOT", tmp_path)
+    assert checker.check_sibling_references() == []
+
+
 def test_checker_does_not_skip_sibling_named_dirs() -> None:
     checker = _load_checker()
     assert checker._skip_dir("PyDependencyCheck") is False
