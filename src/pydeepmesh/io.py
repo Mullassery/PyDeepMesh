@@ -87,5 +87,8 @@ def ensure_output_path(path: Path, output_root: Path) -> Path:
     resolved = path.expanduser().absolute()
     parent = resolved.parent.resolve()
     if parent != output_root and output_root not in parent.parents:
-        raise SecurityError(f"output path '{path}' escapes output root '{output_root}'")
+        raise SecurityError(
+            f"output path '{path}' escapes output root '{output_root}'; "
+            "pass --output-root to allow writing outside the project"
+        )
     return resolved
