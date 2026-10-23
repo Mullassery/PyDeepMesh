@@ -356,8 +356,7 @@ def _cmd_image(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int
         text = "\n".join(lines)
 
     if args.output:
-        output_path = ensure_output_path(Path(args.output))
-        output_path.write_text(text + "\n", encoding="utf-8")
+        _emit(f"{text}\n", args.output, output_root=Path.cwd().resolve())
     else:
         print(text)
     return EXIT_OK
