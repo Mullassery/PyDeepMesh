@@ -13,6 +13,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   environment variables `PYDEEPMESH_*`, config `pydeepmesh.toml`, and cache
   directories `.pydeepmesh*`.
 
+## [0.1.1] - 2026-10-24
+
+### Fixed
+- `pydeepmesh image --output` now resolves and confines the output path to the
+  current working directory through the shared `_emit` helper, matching the
+  other commands and fixing the mypy failure from the missing `output_root`
+  argument.
+
 ## [0.1.0]
 
 ### Added

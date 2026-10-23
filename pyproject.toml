@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pydeepmesh"
-version = "0.1.0"
+version = "0.1.1"
 description = "Deterministic, extensible dependency-graph, vulnerability, and attack-surface intelligence for Python, Rust, Node.js, and container projects."
 readme = "README.md"
 requires-python = ">=3.10"
