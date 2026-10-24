@@ -44,4 +44,4 @@ pydeepmesh sbom . --output sbom.cdx.json
 ```
 
 See [Quickstart](QUICKSTART.md), [Comparison](COMPARISON.md), and
-[`QUEUE_STATUS.md`](../QUEUE_STATUS.md).
+[`internal/QUEUE_STATUS.md`](internal/QUEUE_STATUS.md).

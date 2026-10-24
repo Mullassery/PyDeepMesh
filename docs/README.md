@@ -21,6 +21,6 @@
 
 ## Maintainer
 
-- [`QUEUE_STATUS.md`](../QUEUE_STATUS.md) — shipped/blocked/rejected
-- [`AUDIT_FINDINGS.md`](../AUDIT_FINDINGS.md) — audit notes
-- [`COMPETITIVE_INTELLIGENCE.md`](../COMPETITIVE_INTELLIGENCE.md) — competitive process
+- [`internal/QUEUE_STATUS.md`](internal/QUEUE_STATUS.md) — shipped/blocked/rejected
+- [`internal/AUDIT_FINDINGS.md`](internal/AUDIT_FINDINGS.md) — audit notes
+- [`internal/COMPETITIVE_INTELLIGENCE.md`](internal/COMPETITIVE_INTELLIGENCE.md) — competitive process
