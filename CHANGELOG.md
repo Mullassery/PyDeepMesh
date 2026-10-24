@@ -6,6 +6,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- SPDX 2.3 JSON SBOM export (`pydeepmesh sbom --format spdx`, `make_spdx()`)
+  alongside the existing CycloneDX 1.5 output.
+
 ### Changed
 
 - Renamed the project from DepMesh to **PyDeepMesh**: distribution name

@@ -24,6 +24,7 @@ from pydeepmesh.report.terminal import render_terminal
 from pydeepmesh.report.viewer import build_viewer_document, render_viewer
 from pydeepmesh.risk.analysis import concentration
 from pydeepmesh.sbom.cyclonedx import build_cyclonedx, render_cyclonedx
+from pydeepmesh.sbom.spdx import build_spdx, render_spdx
 from pydeepmesh.version import __version__
 
 EXIT_OK = 0
@@ -92,8 +93,14 @@ def build_parser() -> argparse.ArgumentParser:
     image_parser.add_argument("--output", help="write output to a file")
     image_parser.set_defaults(func=_cmd_image)
 
-    sbom_parser = subparsers.add_parser("sbom", help="emit a CycloneDX 1.5 SBOM")
+    sbom_parser = subparsers.add_parser("sbom", help="emit a CycloneDX 1.5 or SPDX 2.3 SBOM")
     _add_scan_args(sbom_parser)
+    sbom_parser.add_argument(
+        "--format",
+        choices=["cyclonedx", "spdx"],
+        default="cyclonedx",
+        help="SBOM format (default: cyclonedx)",
+    )
     sbom_parser.set_defaults(func=_cmd_sbom)
 
     report_parser = subparsers.add_parser(
@@ -371,8 +378,12 @@ def _cmd_sbom(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         from datetime import datetime, timezone
 
         timestamp = datetime.now(timezone.utc).isoformat()
-    document = build_cyclonedx(result, timestamp=timestamp)
-    _emit(render_cyclonedx(document), args.output, output_root=output_root)
+    if getattr(args, "format", "cyclonedx") == "spdx":
+        document = build_spdx(result, timestamp=timestamp)
+        _emit(render_spdx(document), args.output, output_root=output_root)
+    else:
+        document = build_cyclonedx(result, timestamp=timestamp)
+        _emit(render_cyclonedx(document), args.output, output_root=output_root)
     return EXIT_OK
 
 

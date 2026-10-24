@@ -51,3 +51,38 @@ def test_cyclonedx_dependencies_reference_known_components() -> None:
 
 def test_cyclonedx_spec_version() -> None:
     assert build_cyclonedx(scan_fixture("node_project"))["specVersion"] == SPEC_VERSION
+
+
+def test_spdx_matches_expected_shape() -> None:
+    from pydeepmesh.sbom.spdx import SPDX_VERSION, build_spdx
+
+    scan = scan_fixture("python_project")
+    document = build_spdx(scan, timestamp="2026-10-24T00:00:00Z")
+    assert document["spdxVersion"] == SPDX_VERSION
+    assert document["dataLicense"] == "CC0-1.0"
+    assert document["SPDXID"] == "SPDXRef-DOCUMENT"
+    assert document["creationInfo"]["created"] == "2026-10-24T00:00:00Z"
+    assert any(p["SPDXID"] != "SPDXRef-DOCUMENT" for p in document["packages"])
+    described = [
+        r
+        for r in document["relationships"]
+        if r["relationshipType"] == "DESCRIBES"
+    ]
+    assert len(described) == 1
+    assert described[0]["relatedSpdxElement"] in {
+        p["SPDXID"] for p in document["packages"]
+    }
+
+
+def test_spdx_is_deterministic_and_relationships_resolve() -> None:
+    from pydeepmesh.sbom.spdx import build_spdx, render_spdx
+
+    scan = scan_fixture("node_project")
+    first = render_spdx(build_spdx(scan))
+    second = render_spdx(build_spdx(scan))
+    assert first == second
+    document = build_spdx(scan)
+    ids = {p["SPDXID"] for p in document["packages"]}
+    for relationship in document["relationships"]:
+        assert relationship["spdxElementId"] in ids or relationship["spdxElementId"] == "SPDXRef-DOCUMENT"
+        assert relationship["relatedSpdxElement"] in ids

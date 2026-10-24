@@ -54,7 +54,7 @@ exceed this matrix.
 | PyDeepMesh JSON (`schema_version`) | Implemented | Versioned, deterministic |
 | SARIF 2.1.0 | Implemented | Validated against schema in tests |
 | CycloneDX 1.5 JSON | Implemented | Validated against schema in tests |
-| SPDX | Planned | CycloneDX chosen first; SPDX not yet implemented |
+| SPDX 2.3 JSON | Implemented | Deterministic document namespace; `sbom --format spdx` |
 | Local graph viewer | Implemented | Static HTML + inline SVG, no JavaScript, no CDN, no telemetry; deterministic |
 
 ## Operating modes

@@ -108,7 +108,7 @@ pydeepmesh scan   <path>     # discover + parse + build graph; summary or --form
 pydeepmesh graph  <path>     # graph queries: paths, reverse-deps; --format html export
 pydeepmesh audit  <path>     # vulnerability + exposure findings (offline by default)
 pydeepmesh image  <image>    # catalog packages in a container image via Syft
-pydeepmesh sbom   <path>     # emit a CycloneDX 1.5 SBOM
+pydeepmesh sbom   <path>     # emit a CycloneDX 1.5 or SPDX 2.3 SBOM
 pydeepmesh report <path>     # combined report: --format json|sarif|terminal
 pydeepmesh advisories update # refresh the local advisory cache (explicit, online)
 ```
@@ -204,7 +204,7 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md).
   a match is reported as `unmatched`/`unavailable`, never as "safe".
 - `yarn.lock` and `Cargo.toml` workspaces are partially supported (see the
   support matrix).
-- SPDX export is planned; CycloneDX is implemented.
+- SBOM export supports CycloneDX 1.5 and SPDX 2.3.
 
 ## Known issues and deferred work
 

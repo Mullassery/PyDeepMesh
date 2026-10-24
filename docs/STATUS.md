@@ -11,7 +11,7 @@
 - Advisory matching with ecosystem-aware version semantics (PEP 440/SemVer).
 - Exposure analysis: direct/transitive, reachable paths, reverse dependencies,
   concentration, fix candidates.
-- Outputs: terminal, versioned JSON, SARIF 2.1.0, CycloneDX 1.5, static HTML.
+- Outputs: terminal, versioned JSON, SARIF 2.1.0, CycloneDX 1.5, SPDX 2.3, static HTML.
 - Explicit outcome states: confirmed, potential, unmatched, unavailable, error.
 - Offline advisory cache/snapshots; `advisories update|clear`.
 - Optional container image cataloging via an external Syft binary.
@@ -23,7 +23,6 @@
 | No official GitHub Action | CI use requires a manual step (SARIF exists) | Planned |
 | Reachability is graph-based, not runtime exploitability | Potential false confidence if misread | Documented limitation |
 | `yarn.lock` and Cargo workspaces partially supported | Some transitive coverage missing | Partial |
-| SPDX export | Only CycloneDX 1.5 is implemented | Planned |
 | PyPI license metadata is `None` | License scanners/trust signals | Open |
 | Alpha maturity | CLI/output schema may change | By design |
 

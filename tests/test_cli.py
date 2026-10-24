@@ -58,6 +58,13 @@ def test_sbom_output(capsys: pytest.CaptureFixture[str]) -> None:
     assert document["bomFormat"] == "CycloneDX"
 
 
+def test_sbom_spdx_output(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["sbom", NODE, "--format", "spdx"]) == EXIT_OK
+    document = json.loads(capsys.readouterr().out)
+    assert document["spdxVersion"] == "SPDX-2.3"
+    assert document["SPDXID"] == "SPDXRef-DOCUMENT"
+
+
 def test_audit_offline_without_source_requires_advisory(capsys: pytest.CaptureFixture[str]) -> None:
     code = main(["audit", NODE, "--require-advisory"])
     assert code == EXIT_UNAVAILABLE

@@ -27,6 +27,7 @@ from pydeepmesh.report.terminal import render_terminal
 from pydeepmesh.report.viewer import build_viewer_document, render_viewer, render_viewer_json
 from pydeepmesh.risk.analysis import RiskOptions, analyze
 from pydeepmesh.sbom.cyclonedx import build_cyclonedx, render_cyclonedx
+from pydeepmesh.sbom.spdx import build_spdx, render_spdx
 
 __all__ = [
     "Config",
@@ -39,10 +40,12 @@ __all__ = [
     "make_cyclonedx",
     "make_report",
     "make_sarif",
+    "make_spdx",
     "make_viewer",
     "render_cyclonedx",
     "render_json",
     "render_sarif",
+    "render_spdx",
     "render_terminal",
     "render_viewer",
     "render_viewer_json",
@@ -98,6 +101,10 @@ def make_sarif(scan_result: ScanResult, analysis: AnalysisResult) -> dict[str, A
 
 def make_cyclonedx(scan_result: ScanResult, *, timestamp: str | None = None) -> dict[str, Any]:
     return build_cyclonedx(scan_result, timestamp=timestamp)
+
+
+def make_spdx(scan_result: ScanResult, *, timestamp: str | None = None) -> dict[str, Any]:
+    return build_spdx(scan_result, timestamp=timestamp)
 
 
 def make_viewer(scan_result: ScanResult) -> dict[str, Any]:
