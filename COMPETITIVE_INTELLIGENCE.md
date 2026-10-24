@@ -56,6 +56,8 @@ starts, and record the decision in the PR or changelog.
 
 ## OSS gap analysis — 2026-10-24
 
+**What matters most here:** advisory breadth and remediation. OSV-only matching can produce false-clean results; add GHSA/vendor feeds behind the provider interface and a dry-run upgrade planner to match OSV-Scanner and pip-audit.
+
 Scope: PyDeepMesh assessed against four maintained dependency scanners on source/lockfile coverage, container image scanning, advisory breadth and freshness, SBOM/SARIF output, offline operation, remediation, and CI policy. Package-level vulnerability matching was the basis; runtime exploitability was out of scope for every tool.
 
 ### Comparable OSS projects
