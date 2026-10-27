@@ -95,7 +95,7 @@ uv tool install pydeepmesh
 Or install from source:
 
 ```bash
-git clone https://github.com/Mullassery/PyDeepMesh
+git clone ../PyDeepMesh
 cd PyDeepMesh
 python -m venv .venv && . .venv/bin/activate
 pip install .
